@@ -6,25 +6,27 @@ import androidx.lifecycle.ViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+private const val PRICE_PER_CUPCAKE = 2.00
+
 class OrderViewModel : ViewModel() {
     init {
         resetOrder()
     }
-
     private val _quantity = MutableLiveData<Int>()
-    val quantity : LiveData<Int> = _quantity
+    val quantity: LiveData<Int> = _quantity
 
     private val _flavor = MutableLiveData<String>()
-    val flavor : LiveData<String> = _flavor
+    val flavor: LiveData<String> = _flavor
 
     private val _date = MutableLiveData<String>()
-    val date : LiveData<String> = _date
+    val date: LiveData<String> = _date
 
     private val _price = MutableLiveData<Double>()
-    val price : LiveData<Double> = _price
+    val price: LiveData<Double> = _price
 
     fun setQuantity(numberCupcakes: Int) {
         _quantity.value = numberCupcakes
+        updatePrice()
     }
 
     fun setFlavor(desiredFlavor: String) {
@@ -59,4 +61,7 @@ class OrderViewModel : ViewModel() {
         _price.value = 0.0
     }
 
+    private fun updatePrice(){
+        _price.value = (quantity.value ?: 0) * PRICE_PER_CUPCAKE
+    }
 }
